@@ -1,10 +1,10 @@
 import React from 'react';
-import axios from "axios";
+// import axios from "axios";
 import './App.css';
 import Card from "./components/Card";
 
 
-class App extends React.Component() {
+class App extends React.Component {
 
   constructor() {
     super();

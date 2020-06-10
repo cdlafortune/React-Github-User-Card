@@ -1,34 +1,34 @@
 import React, {useState} from "react";
 import axios from "axios";
 
-export default function Card(props){
-    const [follower, setFollower] = useState({
+function Card(props){
+    const [followers, setFollower] = useState([{
         name: "",
         username: "", 
         avatar: "",
         location: "",
         bio: "", 
         profile: "",
-    });
+    }]);
 
 
     const getFollower = e => {
         e.preventDefault();
         axios
-            .get(`"https://api.github.com/users/cdlafortune/followers"`)
+            .get("https://api.github.com/users/cdlafortune/followers")
             .then((response) => {
                 setFollower(response.data);
-                console.log("Followers: ", follower);
+                console.log("Followers: ", followers);
             })
             .catch((error)=> console.log(error));
     };
 
     return (
         <div className="followers">
-            <button className="followers-btn" onClick={getFollower}>Followers</button>
+            <button className="followers-btn" onClick={getFollower}>Following</button>
 
             <div className="card-container">
-                {follower.map((item)=> (
+                {followers.map((item)=> (
                     <div className="card">
                     <img href={item.avatar} alt="profile pic"/>
                     <p>Name: {item.name}</p>
@@ -38,8 +38,10 @@ export default function Card(props){
                     <p>Profile: <a href={item.html_url}>Github</a></p>
                 </div>
                 ))}
-                
+
             </div>
         </div>
     )
 }
+
+export default Card;
