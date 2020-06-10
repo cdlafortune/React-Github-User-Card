@@ -1,26 +1,60 @@
 import React from 'react';
-import logo from './logo.svg';
+import axios from "axios";
 import './App.css';
+import Card from "./components/Card";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+class App extends React.Component() {
+
+  constructor() {
+    super();
+    this.state = {
+      name: "",
+      username: "", 
+      avatar: "",
+      location: "",
+      bio: "", 
+      profile: "",
+    };
+   };
+
+  componentDidMount() {
+    fetch("https://api.github.com/users/cdlafortune")
+      .then((response) => response.json())
+      .then((userData) => {
+        console.log("User data:", userData);
+        this.setState({name: userData.name});
+        this.setState({username: userData.login});
+        this.setState({avatar: userData.avatar_url});
+        this.setState({location: userData.location});
+        this.setState({bio: userData.bio});
+        this.setState({profile: userData.html_url});
+      }) 
+      .catch((error) => console.log(error));
+  };
+  
+  
+  render () {
+    return (
+      <div className="app">
+        <header className="App-header">
+          <h1>Github Users</h1>
+        </header>
+
+        <div className="card">
+          <img href={this.state.avatar} alt="profile pic"/>
+          <p>Name: {this.state.name}</p>
+          <p>Username: {this.state.username}</p>
+          <p>Location: {this.state.location}</p>
+          <p>Bio: {this.state.bio}</p>
+          <p>Profile: <a href={this.state.profile}>Github</a></p>
+        </div>
+
+        <Card/>
+      </div>
+    );
+  }
+  
 }
 
 export default App;
